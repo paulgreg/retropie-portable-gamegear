@@ -1,23 +1,20 @@
 height = 100;
-width= 200;
+width= 60;
 thickness = 1.5;
 
-deltaThickness = -1;
-removalThickness = 3;
 
-    
 difference () {
     // plate
     cube([width,height,thickness]);
      
     // cross
-    crossY = 50;
-    crossX = 20;
-    translate([crossX, crossY, deltaThickness]) union() {
+    crossY = 55;
+    crossX = 25;
+    translate([crossX, crossY, 0]) union() {
         crossWidth = 25;
-        crossHeight = 10;
-        cube([crossHeight, crossWidth, removalThickness]);
-        translate([-7.5, 7.5, 0]) cube([crossWidth, crossHeight, removalThickness]);
+        crossHeight = 8;
+        cube([crossHeight, crossWidth, thickness]);
+        translate([-(crossWidth-crossHeight)/2,(crossHeight+crossHeight)/2,0])  cube([crossWidth, crossHeight, thickness]);
     }
  }
  

@@ -38,13 +38,13 @@ rotate([0, rotation_before_print, 0]) {
          // bottom
          difference() {
             cube([pillar, pillar, Z]);
-            translate([pillar/2, pillar/2, -(Z-10)]) cylinder(r=2,h=Z*2);
+            translate([pillar/2, pillar/2, -(Z-10)]) cylinder(r=2,h=Z*2, $fn=10);
          }
          // top
          translate([0, H-pillar-0.5, 0]) {
             difference() {
                 cube([pillar, pillar, Z]);
-                translate([pillar/2, pillar/2, -(Z-10)]) cylinder(r=2,h=Z*2);
+                translate([pillar/2, pillar/2, -(Z-10)]) cylinder(r=2,h=Z*2, $fn=10);
              }
          }
 

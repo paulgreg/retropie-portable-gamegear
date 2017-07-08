@@ -24,6 +24,13 @@ pillarHole = 1;
 
 DEBUG=!true;
 
+module startReset(x, y) {
+    buttonR = 4;
+    d = 9;
+    translate([x-d/2, y, Z]) cylinder(r=buttonR,h=Z*2, $fn=20);
+    translate([x +d/2, y, Z]) cylinder(r=buttonR,h=Z*2, $fn=20);
+}
+
 module buttons(x, y) {
     buttonR = 5;
     d = 15;
@@ -89,6 +96,7 @@ union () {
 
         dpad(16, 55);
         buttons(W-27, 66);
+        startReset(W/2+thickness, 12);
 
         // top d-pad button - hole
         translate([bigButtonX, H+thickness, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5,h=thickness*20);

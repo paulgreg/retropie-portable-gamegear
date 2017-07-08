@@ -1,10 +1,29 @@
+screenExtW =120;
+screenExtH = 75;
+screenIntW = 110;
+screenIntH = 67;
+screenZ = 3;
+screenIntX = 5;
+screenIntY = 6;
+screenX = 45;
+screenY = 20;
+
 H         = 100;
-W         = 60;
+W         = 50 * 2 + screenIntW;
 Z         = 25;
 thickness = 1;
 
-rotation_before_print=180;
+rotation_before_print=0;
 rotate([0, rotation_before_print, 0]) {
+
+    // screen emulation
+    translate([screenX, screenY, Z -screenZ]) {
+    difference() {
+        cube([screenExtW, screenExtH, screenZ]);
+        translate([screenIntX, screenIntY, 0])cube([screenIntW, screenIntH, screenZ]);
+    }
+}
+    
     union () {
         difference () {
             // box
@@ -13,7 +32,10 @@ rotate([0, rotation_before_print, 0]) {
                 //cylinder(r=1,h=1);
             //}
             // extrusion
-            translate([thickness, thickness, 0]) cube([W-thickness+10 ,H-(2 * thickness),Z]);
+            translate([thickness, thickness, 0]) cube([W-(2*thickness) ,H-(2 * thickness),Z]);
+            
+            // screen extrusion
+            translate([screenX+screenIntX, screenY+screenIntY, Z]) cube([screenIntW, screenIntH, screenZ]);
 
             // D-pad
             crossY = 55;
@@ -51,20 +73,21 @@ rotate([0, rotation_before_print, 0]) {
         // PCB attachments
         difference() {
             attachW = 20;
-            attachZ = 11;
+            attachH = 12;
+            attachZ = 1;
             union() {
                  // bottom
-                 translate([14, 41, Z-attachZ]) cube([attachW, 1, attachZ]);
+                 translate([15, 42-attachZ, Z-attachH]) cube([attachW, attachZ, attachH]);
                  // top
-                 translate([14, 81, Z-attachZ]) cube([attachW, 1, attachZ]);
+                 translate([15, 81, Z-attachH]) cube([attachW, attachZ, attachH]);
                  // right
-                 translate([9, 55, Z-attachZ]) cube([1, attachW, attachZ]);
+                 translate([10-attachZ, 55, Z-attachH]) cube([attachZ, attachW, attachH]);
                  // left
-                 translate([41, 55, Z-attachZ]) cube([1, attachW, attachZ]);
+                 translate([41, 55, Z-attachH]) cube([attachZ, attachW, attachH]);
             }
             // holes
-            translate([5, 58, Z-attachZ+2]) rotate([0, 90, 0]) cylinder(r=1, h=40, $fn=10);
-            translate([5, 72, Z-attachZ+2]) rotate([0, 90, 0]) cylinder(r=1, h=40, $fn=10);
+            //translate([5, 58, Z-attachH+2]) rotate([0, 90, 0]) cylinder(r=1, h=40, $fn=10);
+            //translate([5, 72, Z-attachH+2]) rotate([0, 90, 0]) cylinder(r=1, h=40, $fn=10);
          }
          // board simulation
          //translate([10, 42, 20]) cube([31, 39, 1]);

@@ -78,51 +78,67 @@ module holder (x, y, w, h, attachH, attachW) {
         translate([x-w-attachThick, y-h-attachThick, Z-attachH]) cube([attachThick, attachW, attachH]);
 }
 
-union () {
-    difference () {
-        // box
-        minkowski() {
-            cube([W,H,thickness+Z]);
-            cylinder(r=1,h=1,  $fn=20);
+difference () {
+    union () {
+        difference () {
+            // box
+            minkowski() {
+                cube([W,H,thickness+Z]);
+                cylinder(r=1,h=1,  $fn=20);
+            }
+            // extrusion
+            translate([thickness, thickness, 0]) cube([W-(2*thickness) ,H-(2 * thickness),Z]);
+
+            // screen extrusion
+            translate([screenX+screenIntX, screenY+screenIntY, Z]) cube([screenIntW, screenIntH, screenZ]);
+
+            // power button extrusion
+            translate([45, H-thickness, 5]) cube([10, 4+10, 4]);
+
+            dpad(16, 55);
+            buttons(W-27, 66);
+            startReset(W/2+thickness, 12);
+
+            // top d-pad button - hole
+            translate([bigButtonX, H+thickness, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5,h=thickness*20);
+
+            // top buttons button - hole
+            translate([W-bigButtonX, H+thickness, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5,h=thickness*2);
         }
-        // extrusion
-        translate([thickness, thickness, 0]) cube([W-(2*thickness) ,H-(2 * thickness),Z]);
+        
+        // top button support
+        translate([pillar, H-8.5, Z-bigButtonX]) cube([14, 1, bigButtonX]);
+        translate([W-pillar-14, H-8.5, Z-bigButtonX]) cube([14, 1, bigButtonX]);
 
-        // screen extrusion
-        translate([screenX+screenIntX, screenY+screenIntY, Z]) cube([screenIntW, screenIntH, screenZ]);
+        // pillars for screws
+        pillar(0, 0);                               // bottom dpad
+        pillar(0, H-pillar-0.5);             // top dpad
+        pillar(W-pillar, 0);                    // bottom buttons
+        pillar(W-pillar, H-pillar-0.5);  // top buttons
+        
+        holder(36, 81, pcbW, pcbH, 10, 8); // dpad holder
+        holder(193, 81, pcbW, pcbH, 10, 8); // dpad holder
 
-        // power button extrusion
-        translate([45, H-thickness, 5]) cube([10, 4+10, 4]);
-
-        dpad(16, 55);
-        buttons(W-27, 66);
-        startReset(W/2+thickness, 12);
-
-        // top d-pad button - hole
-        translate([bigButtonX, H+thickness, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5,h=thickness*20);
-
-        // top buttons button - hole
-        translate([W-bigButtonX, H+thickness, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5,h=thickness*2);
+        holder(screenX+screenExtW, screenY + screenExtH, screenExtW, screenExtH, 4, 15); // screen holder
+        
+        // D-pad PCB holder
+        holder();
     }
-    
-    // top button support
-    translate([pillar, H-8.5, Z-bigButtonX]) cube([14, 1, bigButtonX]);
-    translate([W-pillar-14, H-8.5, Z-bigButtonX]) cube([14, 1, bigButtonX]);
-
-    // pillars for screws
-    pillar(0, 0);                               // bottom dpad
-    pillar(0, H-pillar-0.5);             // top dpad
-    pillar(W-pillar, 0);                    // bottom buttons
-    pillar(W-pillar, H-pillar-0.5);  // top buttons
-    
-    holder(36, 81, pcbW, pcbH, 10, 8); // dpad holder
-    holder(193, 81, pcbW, pcbH, 10, 8); // dpad holder
-
-    holder(screenX+screenExtW, screenY + screenExtH, screenExtW, screenExtH, 4, 15); // screen holder
-    
-    // D-pad PCB holder
-    holder();
+    // differences to print some part (for trial & errors)
+    // for dpad and buttons
+    //translate([-thickness*2, H-17, 0]) cube([W+thickness*4, 42, Z+10]); // top
+    //translate([-thickness*2, -thickness*2, 0]) cube([W+thickness*4, 42, Z+10]); // bottom
+    //translate([W-60, 0, 0]) cube([70, H+10, Z+10]); // remove buttons
+    //translate([-thickness, 0, 0]) cube([thickness+3, H+10, Z+10]);  // remove dpad border
+    //translate([-thickness*2, -thickness*2, 0]) cube([70, H+10, Z+10]); // remove DPAD
+    //translate([W-thickness-1, 0, 0]) cube([thickness+3, H+10, Z+10]);  // remove button border
+    // for screen
+    //translate([-thickness*2, -thickness*2, 0]) cube([W+thickness*4, 20, Z+10]); // bottom
+    //translate([-thickness*2, H-thickness, 0]) cube([W+thickness*4, 40, Z+10]); // top
+    //translate([W-37, 0, 0]) cube([50, H+10, Z+10]);  // remove buttons
+    //translate([-thickness*2, -thickness*2, 0]) cube([39, H+10, Z+10]); // remove DPAD
 }
+
 
 if (DEBUG) {
     // screen simulation

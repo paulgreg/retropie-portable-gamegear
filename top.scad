@@ -1,28 +1,10 @@
-screenExtW = 120;
-screenExtH = 75;
-screenIntW = 110;
-screenIntH = 67;
-screenZ = 3;
-screenIntX = 5;
-screenIntY = 6;
-screenX = 38;
-screenY = 20;
-
-H  = 100;
-W = 44 * 2 + screenIntW;
-Z   = 25;
-thickness = 1;
-
-pcbW = 31;
-pcbH = 39;
+include <common.scad>;
 
 bigButtonX = 16;
 bigButtonY = 10;
 
-pillar = 8;
-pillarHole = 1;
 
-DEBUG=!true;
+DEBUG=false;
 
 module startReset(x, y) {
     buttonR = 4;
@@ -92,11 +74,8 @@ difference () {
             // screen extrusion
             translate([screenX+screenIntX, screenY+screenIntY, Z]) cube([screenIntW, screenIntH, screenZ]);
 
-            // power button extrusion
-            translate([45, H-thickness, 5]) cube([10, 4+10, 4]);
-
-            dpad(16, 55);
-            buttons(W-27, 66);
+            dpad(dpadX, dpadY);
+            buttons(buttonsX, buttonsY);
             startReset(W/2+thickness, 12);
 
             // top d-pad button - hole
@@ -104,25 +83,29 @@ difference () {
 
             // top buttons button - hole
             translate([W-bigButtonX, H+thickness, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5,h=thickness*2);
+
+            // power button extrusion
+            translate([165, H-thickness, 0]) cube([10, 4+10, 8]);
+            // USBextrusion
+            translate([W-thickness, 20, 0]) cube([10, 10, 8]);
         }
-        
+
         // top button support
-        translate([pillar, H-8.5, Z-bigButtonX]) cube([14, 1, bigButtonX]);
-        translate([W-pillar-14, H-8.5, Z-bigButtonX]) cube([14, 1, bigButtonX]);
+        color("purple") translate([pillar, H-8.5, Z-bigButtonX]) cube([14, 1, bigButtonX]);
+        color("violet") translate([W-pillar-14, H-8.5, Z-bigButtonX]) cube([14, 1, bigButtonX]);
 
         // pillars for screws
-        pillar(0, 0);                               // bottom dpad
-        pillar(0, H-pillar-0.5);             // top dpad
-        pillar(W-pillar, 0);                    // bottom buttons
-        pillar(W-pillar, H-pillar-0.5);  // top buttons
-        
-        holder(36, 81, pcbW, pcbH, 10, 8); // dpad holder
-        holder(193, 81, pcbW, pcbH, 10, 8); // dpad holder
+        color("blue") {
+            pillar(0, 0);                               // bottom dpad
+            pillar(0, H-pillar-0.5);             // top dpad
+            pillar(W-pillar, 0);                    // bottom buttons
+            pillar(W-pillar, H-pillar-0.5);  // top buttons
+        }
 
-        holder(screenX+screenExtW, screenY + screenExtH, screenExtW, screenExtH, 4, 15); // screen holder
-        
-        // D-pad PCB holder
-        holder();
+        color("red") holder(36, 81, pcbW, pcbH, 10, 8); // dpad holder
+        color("yellow") holder(193, 81, pcbW, pcbH, 10, 8); // dpad holder
+        color("green") holder(screenX+screenExtW, screenY + screenExtH, screenExtW, screenExtH, 4, 15); // screen holder
+
     }
     // differences to print some part (for trial & errors)
     // for dpad and buttons

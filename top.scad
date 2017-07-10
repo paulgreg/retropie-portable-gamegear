@@ -3,7 +3,6 @@ include <common.scad>;
 bigButtonX = 16;
 bigButtonY = 10;
 
-
 DEBUG=false;
 
 module startReset(x, y) {
@@ -25,9 +24,11 @@ module buttons(x, y) {
 module dpad(crossX, crossY) {
     translate([crossX, crossY, Z]) {
         crossW = 25;
-        crossH = 8;
+        crossH = 9;
         cube([crossH, crossW, thickness*2]);
-        translate([-(crossW-crossH)/2,(crossH+crossH)/2,0])  cube([crossW, crossH, thickness*2]);
+        translate([-crossW/3,crossW/3,0])  cube([crossW, crossH, thickness*2]);
+        
+        translate([4.25, 12.5, 0]) cylinder(r=27/2, h=1, $fn=40);
     }
 }
 

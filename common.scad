@@ -11,10 +11,10 @@ W = 44 * 2 + screenIntW;
 Z   = 25;
 thickness = 1;
 
-dpadX = 15;
-dpadY = 55;
-buttonsX = W-27;
-buttonsY = 66;
+dpadX = 13;
+dpadY = 54.5;
+buttonsX = W-26;
+buttonsY = 68;
 
 screenX = 38;
 screenY = 20;

@@ -5,62 +5,6 @@ bigButtonY = 10;
 
 DEBUG=false;
 
-module startReset(x, y) {
-    buttonR = 4;
-    d = 9;
-    translate([x-d/2, y, Z]) cylinder(r=buttonR,h=Z*2, $fn=20);
-    translate([x +d/2, y, Z]) cylinder(r=buttonR,h=Z*2, $fn=20);
-}
-
-module buttons(x, y) {
-    buttonR = 5;
-    d = 15;
-    translate([x, y, Z]) cylinder(r=buttonR,h=Z*2, $fn=20);
-    translate([x+d, y, Z]) cylinder(r=buttonR,h=Z*2, $fn=20);
-    translate([x+d/2, y+d/2, Z]) cylinder(r=buttonR,h=Z*2, $fn=20);
-    translate([x+d/2, y-d/2, Z]) cylinder(r=buttonR,h=Z*2, $fn=20);
-}
-
-module dpad(crossX, crossY) {
-    translate([crossX, crossY, Z]) {
-        crossW = 25;
-        crossH = 9;
-        cube([crossH, crossW, thickness*2]);
-        translate([-crossW/3,crossW/3,0])  cube([crossW, crossH, thickness*2]);
-        
-        translate([4.25, 12.5, 0]) cylinder(r=27/2, h=1, $fn=40);
-    }
-}
-
-module pillar(x, y) {
-    translate([x, y, 0]) {
-        difference() {
-            cube([pillar, pillar, Z]);
-            translate([pillar/2, pillar/2, -(Z-10)]) cylinder(r=pillarHole,h=Z*2, $fn=10);
-        }
-    }
-}
-
-module holder (x, y, w, h, attachH, attachW) {
-        attachThick = 1;
-        // top (left)
-        translate([x-attachW+attachThick, y, Z-attachH]) cube([attachW, attachThick, attachH]);
-        // left (top)
-        translate([x, y-attachW, Z-attachH]) cube([attachThick, attachW, attachH]);
-        // top (right)
-        translate([x-w-attachThick, y, Z-attachH]) cube([attachW, attachThick, attachH]);
-        // right (top)
-        translate([x-w-attachThick, y-attachW, Z-attachH]) cube([attachThick, attachW, attachH]);
-        // bottom(left)
-        translate([x-attachW+attachThick, y-h-attachThick, Z-attachH]) cube([attachW, attachThick, attachH]);
-        // left (bottom)
-        translate([x, y-h-attachThick, Z-attachH]) cube([attachThick, attachW, attachH]);
-        // top (right)
-        translate([x-w-attachThick, y-h-attachThick, Z-attachH]) cube([attachW, attachThick, attachH]);
-        // right (bottom)
-        translate([x-w-attachThick, y-h-attachThick, Z-attachH]) cube([attachThick, attachW, attachH]);
-}
-
 difference () {
     union () {
         difference () {
@@ -70,25 +14,31 @@ difference () {
                 cylinder(r=1,h=1,  $fn=20);
             }
             // extrusion
-            translate([thickness, thickness, 0]) cube([W-(2*thickness) ,H-(2 * thickness),Z]);
+            translate([thickness, thickness, -1]) cube([W-(2*thickness) ,H-(2 * thickness),Z+1]);
 
             // screen extrusion
-            translate([screenX+screenIntX, screenY+screenIntY, Z]) cube([screenIntW, screenIntH, screenZ]);
+            translate([screenX+screenIntX, screenY+screenIntY, Z-1]) cube([screenIntW, screenIntH, screenZ+1]);
 
             dpad(dpadX, dpadY);
             buttons(buttonsX, buttonsY);
-            startReset(W/2+thickness, 12);
+            startResetHoles(W/2+thickness, 12);
 
             // top d-pad button - hole
-            translate([bigButtonX, H+thickness, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5,h=thickness*20);
+            translate([bigButtonX, H+thickness+1, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5,h=thickness*20);
 
             // top buttons button - hole
-            translate([W-bigButtonX, H+thickness, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5,h=thickness*2);
+            translate([W-bigButtonX, H+thickness+1, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5,h=thickness*20);
+
+            // Jack
+            translate([jackX, H+thickness+1, jackZ]) rotate([90, 0, 0]) cylinder(r=4,h=thickness*20);
+
+            // volume
+            translate([volumeX, H-thickness-5, -1]) cube([volumeW, 10, volumeH-1]);
 
             // power button extrusion
-            translate([165, H-thickness, 0]) cube([10, 4+10, 8]);
+            translate([165, H-thickness-1, -1]) cube([10, 4+10, 8+1]);
             // USBextrusion
-            translate([W-thickness, 20, 0]) cube([10, 10, 8]);
+            translate([W-thickness-1, 20, -1]) cube([10, 10, 8+1]);
         }
 
         // top button support
@@ -103,10 +53,11 @@ difference () {
             pillar(W-pillar, H-pillar-0.5);  // top buttons
         }
 
-        color("red") holder(36, 81, pcbW, pcbH, 10, 8); // dpad holder
-        color("yellow") holder(193, 81, pcbW, pcbH, 10, 8); // dpad holder
-        color("green") holder(screenX+screenExtW, screenY + screenExtH, screenExtW, screenExtH, 4, 15); // screen holder
-
+        color("red") holder(36, 81, pcbW, pcbH, 12.5, 11); // dpad holder
+        color("yellow") holder(193, 81, pcbW, pcbH, 12.5, 11); // dpad holder
+        color("green") holder(screenX+screenExtW, screenY + screenExtH, screenExtW, screenExtH, 10, 15); // screen holder
+        
+        color("red") holder(116, 19, resetStartPcbW, resetStartPcbH, 12.5, 8); // start reset holder
     }
     // differences to print some part (for trial & errors)
     // for dpad and buttons
@@ -123,7 +74,6 @@ difference () {
     //translate([-thickness*2, -thickness*2, 0]) cube([39, H+10, Z+10]); // remove DPAD
 }
 
-
 if (DEBUG) {
     // screen simulation
     translate([screenX, screenY, Z -screenZ]) {
@@ -136,4 +86,40 @@ if (DEBUG) {
     translate([5, 42, 15]) cube([pcbW, pcbH, 1]);
     //  buttons board simulation
     translate([W-5-pcbW, 42, 15]) cube([pcbW, pcbH, 1]);
+}
+
+module startResetHoles(x, y) {
+    buttonR = 4.1;
+    d = 14;
+    translate([x-d/2, y, Z-1]) cylinder(r=buttonR,h=Z*2, $fn=20);
+    translate([x +d/2, y, Z-1]) cylinder(r=buttonR,h=Z*2, $fn=20);
+}
+
+module buttons(x, y) {
+    buttonR = 5;
+    d = 15;
+    translate([x, y, Z-1]) cylinder(r=buttonR,h=Z*2, $fn=20);
+    translate([x+d, y, Z-1]) cylinder(r=buttonR,h=Z*2, $fn=20);
+    translate([x+d/2, y+d/2, Z-1]) cylinder(r=buttonR,h=Z*2, $fn=20);
+    translate([x+d/2, y-d/2, Z-1]) cylinder(r=buttonR,h=Z*2, $fn=20);
+}
+
+module dpad(crossX, crossY) {
+    translate([crossX, crossY, Z-2]) {
+        crossW = 25;
+        crossH = 9;
+        cube([crossH, crossW, 10]);
+        translate([-crossW/3,crossW/3,0])  cube([crossW, crossH, 10]);
+        
+        translate([4.25, 12.5, 0]) cylinder(r=27/2, h=1, $fn=40);
+    }
+}
+
+module pillar(x, y) {
+    translate([x, y, 0]) {
+        difference() {
+            cube([pillar, pillar, Z]);
+            translate([pillar/2, pillar/2, -(Z-10)]) cylinder(r=pillarHole,h=Z*2, $fn=10);
+        }
+    }
 }

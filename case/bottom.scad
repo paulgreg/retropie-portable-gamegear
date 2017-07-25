@@ -8,14 +8,15 @@ encZ = 4;
 difference() {
     union() {
         color ("yellow") minkowski() {
-            cube([W, H, thickness]);
-            cylinder(r=1,h=1,  $fn=20);
+            cube([W, H, thickness/2]);
+            cylinder(r=thickness/2,h=1,  $fn=20);
         }
+        
         // Pi support
         color("green") support4(screenX + 37, screenY + 25, 64, 55, 3, 4);
     
         // Battery holder
-       color("green")  translate([0, 0, -batteryZ - 5]) holder(149, 38.5, batteryW, batteryH, batteryZ + 2, 10); // start reset holder
+       color("green")  translate([0, 0, -batteryZ-6]) holder(149, 39, batteryW, batteryH, batteryZ + 1, 10); // start reset holder
         
         // power boost support
         color("green") support2(W - 4.5, 16.5, 22, 2, boostZ);
@@ -116,7 +117,7 @@ module supportHole1(x, y, R, z) {
     screwR = 1;
     screwZ = 3;
     translate([x, y, -3]) cylinder(r=screwR, h=z*2,  $fn=20);
-    translate([x, y, screwZ-3]) sphere(2, $fn=20);
+    translate([x, y, screwZ-thickness*2]) sphere(2, $fn=20);
 }
 
 module volume(x, y) {

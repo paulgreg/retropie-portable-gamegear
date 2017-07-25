@@ -1,15 +1,15 @@
-screenExtW = 120;
-screenExtH = 75;
-screenIntW = 110;
+screenExtW = 121;
+screenExtH = 76;
+screenIntW = 111;
 screenIntH = 67;
 screenZ = 3;
 screenIntX = 5;
-screenIntY = 6;
+screenIntY = 6.5;
 
 H  = 100;
 W = 44 * 2 + screenIntW; // 198
 Z   = 25;
-thickness = 1;
+thickness = 1.5;
 
 dpadX = 13;
 dpadY = 54.5;
@@ -32,12 +32,17 @@ pcbH = 39;
 pillar = 8;
 pillarHole = 1;
 
-resetStartPcbW =30;
-resetStartPcbH = 13;
+resetStartPcbW =31;
+resetStartPcbH = 14;
 
 batteryW = 61;
-batteryH = 36;
+batteryH = 37;
 batteryZ = 8;
+
+/* Test holder internal W / H
+holder(0, 0, 10, 10, 2, 3, 3);
+translate([-10, -10, 14]) cube(10, 10);
+*/
 
 module holder (x, y, w, h, attachH, attachW) {
         attachThick = 1;

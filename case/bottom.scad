@@ -1,6 +1,6 @@
 include <common.scad>;
 
-DEBUG=false;
+DEBUG= !false;
 
 boostZ = 4;
 encZ = 4;
@@ -16,7 +16,7 @@ difference() {
         color("green") support4(screenX + 37, screenY + 25, 64, 55, 3, 4);
     
         // Battery holder
-       color("green")  translate([0, 0, -batteryZ-6]) holder(149, 39, batteryW, batteryH, batteryZ + 1, 10); // start reset holder
+       color("green")  translate([0, 0, -batteryZ-6]) holder(149, 39.5, batteryW, batteryH, batteryZ + 1, 8); // start reset holder
         
         // power boost support
         color("green") support2(W - 4.5, 16.5, 22, 2, boostZ);
@@ -58,7 +58,7 @@ difference() {
 }
 
 if (DEBUG) {
-    translate([0, 0, 50 + 2]) import("top.stl");
+    translate([0, 0, 0 + 2]) import("top.stl");
     color("red") translate([screenX + 33.5, screenY + 21.5, 4]) import("pi-aplus.stl");
     color("blue") translate([W - 36.5 - thickness - 1, 14, 4]) powerboost();
     color("brown") translate([thickness, 9, 4]) usbEncoder();

@@ -7,7 +7,7 @@ screenIntX = 5;
 screenIntY = 6.5;
 
 H  = 100;
-W = 44 * 2 + screenIntW; // 198
+W = 43.5 * 2 + screenIntW; // 199
 Z   = 25;
 thickness = 1.5;
 

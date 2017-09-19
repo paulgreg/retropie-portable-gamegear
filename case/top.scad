@@ -7,7 +7,6 @@ DEBUG=false;
 
 difference () {
     union () {
-
         difference () {
             // box
             minkowski() {
@@ -23,29 +22,15 @@ difference () {
 
             dpad(dpadX, dpadY);
             buttons(buttonsX, buttonsY);
-            startResetHoles(W/2+thickness, 12);
-
-            // top d-pad button - hole
-            // disable due to bad results translate([bigButtonX, H+thickness+1, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5,h=thickness*20);
-
-            // top buttons button - hole
-            // disable due to bad results translate([W-bigButtonX, H+thickness+1, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5,h=thickness*20);
-
-            // Jack
-            // disable due to bad results // translate([jackX, H+thickness+1, jackZ]) rotate([90, 0, 0]) cylinder(r=4,h=thickness*20);
-
-            // volume
-            translate([volumeX, H-thickness-5, -1]) cube([volumeW, 10, volumeH-1]);
+            startResetHoles(startResetX, startResetY);
 
             // power button extrusion
-            translate([165, H-thickness-1, -1]) cube([10, 4+10, 8+1]);
+            translate([powerX, powerY, -1]) cube([10, 4+10, 8]);
+            // volume
+            translate([volumeX, thickness-5, -1]) cube([volumeW, 10, volumeH+2]);
             // USBextrusion
-            translate([W-thickness-1, 20, -1]) cube([10, 10, 8+1]);
+            translate([W-thickness-1, 20, -1]) cube([10, 10, 6]);
         }
-
-        // top button support
-        color("purple") translate([pillar, H-8.5, Z-bigButtonX]) cube([14, 1, bigButtonX]);
-        color("violet") translate([W-pillar-14, H-8.5, Z-bigButtonX]) cube([14, 1, bigButtonX]);
 
         // pillars for screws
         color("blue") {
@@ -55,10 +40,10 @@ difference () {
             pillar(W-pillar, H-pillar-0.5);  // top buttons
         }
 
-        color("red") holder(36, 81, pcbW, pcbH, 12.5, 11); // dpad holder
-        color("yellow") holder(193, 81, pcbW, pcbH, 12.5, 11); // buttons holder
+        color("red") holder(dpadX+17, dpadY+26.5, pcbW, pcbH, 12.5, 9); // dpad holder
+        color("yellow") holder(buttonsX+19.5, buttonsY+13, pcbW, pcbH, 12.5, 9); // buttons holder
         color("green") holder(screenX+screenExtW, screenY + screenExtH, screenExtW, screenExtH, 10, 15); // screen holder
-        color("red") holder(116, 18.5, resetStartPcbW, resetStartPcbH, 12.5, 8); // start reset holder
+        color("red") holder(startResetX + 17, startResetY + 7, resetStartPcbW, resetStartPcbH, 12.5, 8); // start reset holder
     }
     // differences to print some part (for trial & errors)
     // for dpad and buttons
@@ -90,10 +75,10 @@ if (DEBUG) {
 }
 
 module startResetHoles(x, y) {
-    buttonR = 4.25;
+    buttonR = 4.5;
     d = 14;
     translate([x-d/2, y, Z-1]) cylinder(r=buttonR,h=Z*2, $fn=20);
-    translate([x +d/2, y, Z-1]) cylinder(r=buttonR,h=Z*2, $fn=20);
+    translate([x+d/2+1.5, y, Z-1]) cylinder(r=buttonR,h=Z*2, $fn=20);
 }
 
 module buttons(x, y) {
@@ -106,7 +91,7 @@ module buttons(x, y) {
 }
 
 module dpad(crossX, crossY) {
-    translate([crossX, crossY, Z-2]) {
+    translate([crossX, crossY, Z-2.5]) {
         crossW = 25;
         crossH = 9.5;
         cube([crossH, crossW, 10]);

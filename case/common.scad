@@ -6,38 +6,51 @@ screenZ = 3;
 screenIntX = 5;
 screenIntY = 6.5;
 
-H  = 100;
-W = 43.5 * 2 + screenIntW; // 199
+screenX = 30;
+screenY = 37.5;
+
+pcbW = 24;
+pcbH = 39;
+
+H  = 115;
+W = 180;
 Z   = 25;
 thickness = 1.5;
 
-dpadX = 13;
-dpadY = 54.5;
-buttonsX = W-26;
-buttonsY = 68;
+dpadX = 12;
+dpadY = 70;
+
+buttonsX = dpadX + pcbW + screenExtW - 0.5;
+buttonsY = dpadY + 13;
+
+resetStartPcbW = 31;
+resetStartPcbH = 14;
+
+startResetX =  W / 2;
+startResetY = 8.5;
 
 jackX = 38;
 jackZ = 8;
 
-volumeX = 55;
+volumeX = 30;
 volumeW = 15;
 volumeH = 5;
-
-screenX = 38;
-screenY = 20;
-
-pcbW = 31;
-pcbH = 39;
 
 pillar = 8;
 pillarHole = 1;
 
-resetStartPcbW =31;
-resetStartPcbH = 14;
-
 batteryW = 61;
 batteryH = 37;
 batteryZ = 8;
+
+piX = 45;
+piY = screenY + 20;
+
+powerboostX = W - 4.5;
+powerboostY = 16.5;
+
+powerX = 145;
+powerY = H-thickness-1;
 
 /* Test holder internal W / H
 holder(0, 0, 10, 10, 2, 3, 3);

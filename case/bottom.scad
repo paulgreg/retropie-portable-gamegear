@@ -1,6 +1,6 @@
 include <common.scad>;
 
-DEBUG= !false;
+DEBUG= false;
 
 boostZ = 4;
 encZ = 4;
@@ -13,29 +13,27 @@ difference() {
         }
         
         // Pi support
-        color("green") support4(screenX + 37, screenY + 25, 64, 55, 3, 4);
+        color("green") support4(piX, piY, 64, 55, 3, 4);
     
+        // power button pillar
+        color("red") powerPillar(powerX - 4, powerY - 3);
+        
         // Battery holder
-       color("green")  translate([0, 0, -batteryZ-6]) holder(149, 39.5, batteryW, batteryH, batteryZ + 1, 8); // start reset holder
+       color("green")  translate([0, 0, -batteryZ-6]) holder(174, 85, batteryW, batteryH, batteryZ + 1, 8); 
         
         // power boost support
-        color("green") support2(W - 4.5, 16.5, 22, 2, boostZ);
-        color("green") support2(W - 36, 19.5, 16, 2, boostZ);
+        color("green") support2(powerboostX, powerboostY, 22, 2, boostZ);
+        //color("green") support2(powerboostX - 31.5, powerboostY+3, 16, 2, boostZ);
         
         // usb encoder support
-        support2(thickness + 37.5, 12, 30.5, 2, encZ); 
-        support1(thickness + 2.5, 25, 2, encZ);
+        //support2(thickness + 37.5, 12, 30.5, 2, encZ); 
+        //support1(thickness + 2.5, 25, 2, encZ);
 
         // dpad support
         //color("violet") support4(dpadX - 7, dpadY - 10, pcbW - 2, pcbH - 4, 2, Z - 5);
         // buttons support
-        //color("blue") support4(buttonsX - 6, buttonsY - 20, pcbW - 2, pcbH - 4, 2, Z - 5);
-        // screen support
-        //color("white") support4(screenX + 8, screenY + 8, screenExtW - 12, screenExtH - 10, 2, Z - 3);           
+        //color("blue") support4(buttonsX - 6, buttonsY - 20, pcbW - 2, pcbH - 4, 2, Z - 5);         
     }
-
-    // hole for volume
-    color("blue") volume(volumeX + 2, H-2);
 
     // holes for 4 screws holding the case
     color("blue") {
@@ -46,22 +44,27 @@ difference() {
     }
 
     // Pi support
-    supportHole4(screenX + 37, screenY + 25, 64, 55, 3, 8);
+    supportHole4(piX, piY, 64, 55, 3, 8);
 
     // power boost support
-    supportHole2(W - 4.5, 16.5, 22, 2, boostZ);
-    supportHole2(W - 36, 19.5, 16, 2, boostZ);
+    supportHole2(powerboostX, powerboostY, 22, 2, boostZ);
+    //supportHole2(powerboostX - 31.5, powerboostY+3, 16, 2, boostZ);
 
     // usb encoder support
-    supportHole2(thickness + 37.5, 12, 30.5, 2, encZ); 
-    supportHole1(thickness + 2.5, 25, 2, encZ);
+    //supportHole2(thickness + 37.5, 12, 30.5, 2, encZ); 
+    //supportHole1(thickness + 2.5, 25, 2, encZ);
 }
 
 if (DEBUG) {
-    translate([0, 0, 0 + 2]) import("top.stl");
-    color("red") translate([screenX + 33.5, screenY + 21.5, 4]) import("pi-aplus.stl");
+   // translate([0, 0, 0 + 2]) import("top.stl");
+    color("red") translate([piX - 3.5, piY  - 3.5, 4]) import("pi-aplus.stl");
     color("blue") translate([W - 36.5 - thickness - 1, 14, 4]) powerboost();
-    color("brown") translate([thickness, 9, 4]) usbEncoder();
+    color("brown") translate([59, 10, 4]) usbEncoder();
+}
+
+module powerPillar (x, y) {
+    translate([x, y, 0]) cube([3, 2, 8]);
+    translate([x +15, y, 0]) cube([3, 2, 8]);
 }
 
 module usbEncoder () {

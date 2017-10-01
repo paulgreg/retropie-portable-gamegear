@@ -23,27 +23,50 @@ difference () {
             dpad(dpadX, dpadY);
             buttons(buttonsX, buttonsY);
             startResetHoles(startResetX, startResetY);
-
+            
             // power button extrusion
             translate([powerX, powerY, -1]) cube([10, 4+10, 8]);
             // volume
             translate([volumeX, thickness-5, -1]) cube([volumeW, 10, volumeH+2]);
             // USBextrusion
-            translate([W-thickness-1, 20, -1]) cube([10, 10, 6]);
+            translate([W-thickness-1, powerboostY + 3.5, -1]) cube([10, 10, 7]);
+            
+         // top d-pad button - hole 
+           translate([bigButtonX, H+thickness+1, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5.5,h=thickness*20); 
+            // top buttons button - hole
+            translate([W-bigButtonX, H+thickness+1, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5.5,h=thickness*20); 
+            // Jack
+            //translate([jackX, H+thickness+1, jackZ]) rotate([90, 0, 0]) cylinder(r=4,h=thickness*20);
         }
 
         // pillars for screws
         color("blue") {
-            pillar(0, 0);                               // bottom dpad
-            pillar(0, H-pillar-0.5);             // top dpad
-            pillar(W-pillar, 0);                    // bottom buttons
-            pillar(W-pillar, H-pillar-0.5);  // top buttons
+            pillar(0, 0, Z);                               // bottom dpad
+            pillar(0, H-pillar-0.5, Z);             // top dpad
+            pillar(W-pillar, 0, Z);                    // bottom buttons
+            pillar(W-pillar, H-pillar-0.5, Z);  // top buttons
+            
+            pillar(startResetX - 22, 0, Z);                               // right start/reset button
+            pillar(startResetX + 17, 0, Z);                               // left start/reset button
         }
+        
+        color("green") {
+            // pillard height needs to be  adjusted !!!
+            buttonsPillarHeight = 8;
+            pillar(dpadX + 1, dpadY + 27, buttonsPillarHeight);   
+            pillar(dpadX + 1, dpadY - 21, buttonsPillarHeight);   
+            pillar(buttonsX + 3.5, buttonsY + 13, buttonsPillarHeight);   
+            pillar(buttonsX + 3.5, buttonsY - 34, buttonsPillarHeight);   
+         }
 
-        color("red") holder(dpadX+17, dpadY+26.5, pcbW, pcbH, 12.5, 9); // dpad holder
-        color("yellow") holder(buttonsX+19.5, buttonsY+13, pcbW, pcbH, 12.5, 9); // buttons holder
-        color("green") holder(screenX+screenExtW, screenY + screenExtH, screenExtW, screenExtH, 10, 15); // screen holder
-        color("red") holder(startResetX + 17, startResetY + 7, resetStartPcbW, resetStartPcbH, 12.5, 8); // start reset holder
+        color("red") holder(dpadX+17, dpadY+26.5, pcbW, pcbH, 12.5, 10, 1); // dpad holder
+        color("yellow") holder(buttonsX+19.5, buttonsY+13, pcbW, pcbH, 12.5, 10, 1); // buttons holder
+        color("green") holder(screenX+screenExtW, screenY + screenExtH, screenExtW, screenExtH, 10, 15, 1); // screen holder
+        color("red") holder(startResetX + 17, startResetY + 7, resetStartPcbW, resetStartPcbH, 12.5, 8, 1); // start reset holder
+        
+        // top button support                                                                     
+        color("purple") translate([pillar, H-8.5, Z-bigButtonX]) cube([14, 1, bigButtonX]);
+        color("violet") translate([W-pillar-14, H-8.5, Z-bigButtonX]) cube([14, 1, bigButtonX]);
     }
     // differences to print some part (for trial & errors)
     // for dpad and buttons
@@ -100,11 +123,11 @@ module dpad(crossX, crossY) {
     }
 }
 
-module pillar(x, y) {
-    translate([x, y, 0]) {
+module pillar(x, y, z) {
+    translate([x, y,Z-z]) {
         difference() {
-            cube([pillar, pillar, Z]);
-            translate([pillar/2, pillar/2, -(Z-10)]) cylinder(r=pillarHole,h=Z*2, $fn=10);
+            cube([pillar, pillar, z]);
+            translate([pillar/2, pillar/2, -(Z-10)]) cylinder(r=pillarHole,h=z*2, $fn=10);
         }
     }
 }

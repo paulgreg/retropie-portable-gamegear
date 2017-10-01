@@ -2,7 +2,7 @@ include <common.scad>;
 
 DEBUG= false;
 
-boostZ = 4;
+boostZ = 3;
 encZ = 4;
 
 difference() {
@@ -14,25 +14,20 @@ difference() {
         
         // Pi support
         color("green") support4(piX, piY, 64, 55, 3, 4);
-    
+        
         // power button pillar
-        color("red") powerPillar(powerX - 4, powerY - 3);
+        color("red") powerPillar(powerX, powerY);
         
         // Battery holder
-       color("green")  translate([0, 0, -batteryZ-6]) holder(174, 85, batteryW, batteryH, batteryZ + 1, 8); 
+       color("green")  translate([0, 0, -batteryZ-6]) holder(174, 72, batteryH, batteryW, batteryZ + 1, 12, 1.5); 
         
         // power boost support
         color("green") support2(powerboostX, powerboostY, 22, 2, boostZ);
-        //color("green") support2(powerboostX - 31.5, powerboostY+3, 16, 2, boostZ);
+        color("green") support2(powerboostX - 31.5, powerboostY+3, 16, 2, boostZ);
         
         // usb encoder support
         //support2(thickness + 37.5, 12, 30.5, 2, encZ); 
         //support1(thickness + 2.5, 25, 2, encZ);
-
-        // dpad support
-        //color("violet") support4(dpadX - 7, dpadY - 10, pcbW - 2, pcbH - 4, 2, Z - 5);
-        // buttons support
-        //color("blue") support4(buttonsX - 6, buttonsY - 20, pcbW - 2, pcbH - 4, 2, Z - 5);         
     }
 
     // holes for 4 screws holding the case
@@ -41,6 +36,9 @@ difference() {
         pillar(0, H-pillar-0.5);             // top dpad
         pillar(W-pillar, 0);                    // bottom buttons
         pillar(W-pillar, H-pillar-0.5);  // top buttons
+        
+        pillar(startResetX - 22, 0);                               // right start/reset button
+        pillar(startResetX + 17, 0);                               // left start/reset button
     }
 
     // Pi support
@@ -58,13 +56,13 @@ difference() {
 if (DEBUG) {
    // translate([0, 0, 0 + 2]) import("top.stl");
     color("red") translate([piX - 3.5, piY  - 3.5, 4]) import("pi-aplus.stl");
-    color("blue") translate([W - 36.5 - thickness - 1, 14, 4]) powerboost();
-    color("brown") translate([59, 10, 4]) usbEncoder();
+    color("blue") translate([powerboostX - 34, powerboostY - 2, 4]) powerboost();
+    color("brown") translate([58, 20, 4]) usbEncoder();
 }
 
 module powerPillar (x, y) {
-    translate([x, y, 0]) cube([3, 2, 8]);
-    translate([x +15, y, 0]) cube([3, 2, 8]);
+    translate([x-5, y-4, 0]) cube([4, 3, 8]);
+    translate([x +15 - 4, y -4, 0]) cube([4, 3, 8]);
 }
 
 module usbEncoder () {

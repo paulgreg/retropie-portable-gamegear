@@ -47,9 +47,9 @@ piX = 45;
 piY = screenY + 20;
 
 powerboostX = W - 4.5;
-powerboostY = 16.5;
+powerboostY =81.5;
 
-powerX = 145;
+powerX = 120;
 powerY = H-thickness-1;
 
 /* Test holder internal W / H
@@ -57,8 +57,7 @@ holder(0, 0, 10, 10, 2, 3, 3);
 translate([-10, -10, 14]) cube(10, 10);
 */
 
-module holder (x, y, w, h, attachH, attachW) {
-        attachThick = 1;
+module holder (x, y, w, h, attachH, attachW, attachThick) {
         // top (left)
         translate([x-attachW+attachThick, y, Z-attachH]) cube([attachW, attachThick, attachH]);
         // left (top)

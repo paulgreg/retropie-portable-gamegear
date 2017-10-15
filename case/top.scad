@@ -32,9 +32,9 @@ difference () {
             translate([W-thickness-1, powerboostY + 3.5, -1]) cube([10, 10, 7]);
             
          // top d-pad button - hole 
-           translate([bigButtonX, H+thickness+1, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5.5,h=thickness*20); 
+           //translate([bigButtonX, H+thickness+1, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5.5,h=thickness*20); 
             // top buttons button - hole
-            translate([W-bigButtonX, H+thickness+1, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5.5,h=thickness*20); 
+            //translate([W-bigButtonX, H+thickness+1, Z-bigButtonY]) rotate([90, 0, 0]) cylinder(r=5.5,h=thickness*20); 
             // Jack
             //translate([jackX, H+thickness+1, jackZ]) rotate([90, 0, 0]) cylinder(r=4,h=thickness*20);
         }
@@ -68,19 +68,6 @@ difference () {
         color("purple") translate([pillar, H-8.5, Z-bigButtonX]) cube([14, 1, bigButtonX]);
         color("violet") translate([W-pillar-14, H-8.5, Z-bigButtonX]) cube([14, 1, bigButtonX]);
     }
-    // differences to print some part (for trial & errors)
-    // for dpad and buttons
-    //translate([-thickness*2, H-17, 0]) cube([W+thickness*4, 42, Z+10]); // top
-    //translate([-thickness*2, -thickness*2, 0]) cube([W+thickness*4, 42, Z+10]); // bottom
-    //translate([W-60, 0, 0]) cube([70, H+10, Z+10]); // remove buttons
-    //translate([-thickness, 0, 0]) cube([thickness+3, H+10, Z+10]);  // remove dpad border
-    //translate([-thickness*2, -thickness*2, 0]) cube([70, H+10, Z+10]); // remove DPAD
-    //translate([W-thickness-1, 0, 0]) cube([thickness+3, H+10, Z+10]);  // remove button border
-    // for screen
-    //translate([-thickness*2, -thickness*2, 0]) cube([W+thickness*4, 20, Z+10]); // bottom
-    //translate([-thickness*2, H-thickness, 0]) cube([W+thickness*4, 40, Z+10]); // top
-    //translate([W-37, 0, 0]) cube([50, H+10, Z+10]);  // remove buttons
-    //translate([-thickness*2, -thickness*2, 0]) cube([39, H+10, Z+10]); // remove DPAD
 }
 
 if (DEBUG) {

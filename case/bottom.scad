@@ -25,6 +25,9 @@ difference() {
         color("green") support2(powerboostX, powerboostY, 22, 2, boostZ);
         color("green") support2(powerboostX - 31.5, powerboostY+3, 16, 2, boostZ);
         
+        // screw holder
+        color("green") translate([W/2 - 10, H-5, 0]) cube([20, 3.5, 10]);
+        
         // usb encoder support
         //support2(thickness + 37.5, 12, 30.5, 2, encZ); 
         //support1(thickness + 2.5, 25, 2, encZ);
@@ -54,7 +57,7 @@ difference() {
 }
 
 if (DEBUG) {
-   // translate([0, 0, 0 + 2]) import("top.stl");
+   translate([0, 0, 0+ 2]) import("top.stl");
     color("red") translate([piX - 3.5, piY  - 3.5, 4]) import("pi-aplus.stl");
     color("blue") translate([powerboostX - 34, powerboostY - 2, 4]) powerboost();
     color("brown") translate([58, 20, 4]) usbEncoder();
